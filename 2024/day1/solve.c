@@ -24,7 +24,6 @@ int main()
 			{
 				counter++;
 			}
-
 		}
 		
 		similarity_score += list1[i] * counter;
