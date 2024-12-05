@@ -64,10 +64,11 @@ void generate_lists(char input_file[6], int (*list1)[], int (*list2)[])
 
 void bubble_sort_list(int (*list)[])
 {
-	int list_length = 1000, list_position, tmp_int = 0;
-	bool sorted = false;
+	int list_length = 1000, list_position, tmp_int, step;
 
-	while(sorted != true)
+	bool swapped;
+
+	for(step = 0; step < list_length - 1; step++)
 	{
 		for(list_position = 0; list_position < list_length - 1; list_position++)
 		{
@@ -76,16 +77,13 @@ void bubble_sort_list(int (*list)[])
 				tmp_int = (*list)[list_position];
 				(*list)[list_position] = (*list)[list_position + 1];
 				(*list)[list_position + 1] = tmp_int;
+				swapped = true;
 			}
 		}
-		sorted = true;
 
-		for(list_position = 0; list_position < list_length - 1; list_position++)
+		if(swapped == false)
 		{
-			if((*list)[list_position] > (*list)[list_position + 1])
-			{
-				sorted = false;
-			}
+			break;
 		}
 	}
 }
