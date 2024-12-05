@@ -23,8 +23,6 @@ int count_safe_lines(char *input_file)
 
 	while(fgets(input_line, 100, file_pointer))
 	{
-		//printf("%s", input_line);
-		
 		int_line_position = 0;
 		c = i = 0;
 
@@ -44,20 +42,14 @@ int count_safe_lines(char *input_file)
 			i++;
 		}
 
-		printf("line: %d\n", line);
 		if(line_is_safe(&int_line, int_line_position))
 		{
 			safe_lines++;
-			printf("line %5d safe\n", line);
-			printf("total safe lines: %d\n\n", safe_lines);
 		} else if(problem_dampener(&int_line, int_line_position))
 		{
 			safe_lines++;
-			printf("line %5d dampened\n", line);
-			printf("total safe line: %d\n\n", safe_lines);
-		} else {
-			printf("line %5d unsafe\n\n", line);
 		}
+
 		line++;
 	}
 
@@ -71,34 +63,17 @@ bool line_is_safe(int (*line)[], int line_length)
 	int c, i, prev_direction, direction, diff, differences[100];
 	bool one_direction = true, close_diffs = true, no_0_diff = true;
 
-	for(i = 0; i < line_length; i++)
-	{
-		printf("\t%d", (*line)[i]);
-	}
-
 	for(i = 0; i < (line_length - 1); i++)
 	{
 		differences[i] = (*line)[i + 1] - (*line)[i];
 	}
 
-	printf("\n");
-	
-	for(c = 0; c < i; c++)
-	{
-		printf("\t%5d", differences[c]);
-	}
-
-	printf("\n");
-
 	if(differences[0] < 0)
 	{
-		printf("\tdir: decr\n");
 		prev_direction = 0;
 	} else if(differences[0] > 0) {
-		printf("\tdir: incr\n");
 		prev_direction = 1;
 	} else {
-		printf("\tdir: none\n");
 		return false;
 	}
 
@@ -106,7 +81,6 @@ bool line_is_safe(int (*line)[], int line_length)
 	{
 		if((abs(differences[c]) < 1) || (3 < abs(differences[c])))
 		{
-			printf("\tclose_diffs\n");
 			return false;
 		}
 
@@ -119,7 +93,6 @@ bool line_is_safe(int (*line)[], int line_length)
 
 		if(direction != prev_direction)
 		{
-			printf("\tone_direction\n");
 			return false;
 		}
 	}
@@ -140,11 +113,9 @@ bool problem_dampener(int (*line)[], int line_length)
 			if(i != element_to_skip)
 			{
 				new_line[new_line_length] = (*line)[i];
-				printf("%d ", new_line[new_line_length]);
 				new_line_length++;
 			}
 		}
-		printf("\n");
 
 		if(line_is_safe(&new_line, new_line_length))
 		{
