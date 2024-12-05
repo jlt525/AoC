@@ -3,19 +3,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int count_safe_lines(char *input_file);
+void count_safe_lines(char *input_file);
 bool line_is_safe(int (*line)[], int line_length);
 bool problem_dampener(int (*line)[], int line_length);
 
 int main(int argc, char *argv[])
 {
-	printf("safe_lines: %d\n", count_safe_lines(argv[1]));
+	printf("day02:\n");
+	count_safe_lines(argv[1]);
 	return 0;
 }
 
-int count_safe_lines(char *input_file)
+void count_safe_lines(char *input_file)
 {
-	int line = 1, safe_lines = 0, c, i, int_line_position, int_line[100];
+	int line = 1, safe_lines = 0, dampened_lines = 0, c, i, int_line_position, int_line[100];
 	char input_line[100], string_num[5];
 	char *endptr;
 	FILE *file_pointer;
@@ -47,7 +48,7 @@ int count_safe_lines(char *input_file)
 			safe_lines++;
 		} else if(problem_dampener(&int_line, int_line_position))
 		{
-			safe_lines++;
+			dampened_lines++;
 		}
 
 		line++;
@@ -55,7 +56,8 @@ int count_safe_lines(char *input_file)
 
 	(void)fclose(file_pointer);
 
-	return safe_lines;
+	printf("|%-20s|%-20s|%-20s|\n", "safe lines", "dampened lines", "total safe lines");
+	printf("|%-20d|%-20d|%-20d|\n", safe_lines, dampened_lines, safe_lines + dampened_lines);
 }
 
 bool line_is_safe(int (*line)[], int line_length)
