@@ -2,16 +2,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define INPUT_FILE "input"
+void generate_lists(char* input_file, int (*list1)[], int (*list2)[]);
+void bubble_sort_list(int (*list)[]);
 
-void generate_lists(char* input_file, int (*list1)[1000], int (*list2)[1000]);
-void bubble_sort_list(int (*list)[1000]);
-
-int main()
+int main(int argc, char *argv[])
 {
 	int i, c, counter, similarity_score, list1[1000], list2[1000], total_distance;
 	
-	generate_lists(INPUT_FILE, &list1, &list2);
+	generate_lists(argv[1], &list1, &list2);
 	bubble_sort_list(&list1);
 	bubble_sort_list(&list2);
 
@@ -30,12 +28,13 @@ int main()
 		total_distance += abs(list1[i] - list2[i]);
 	}
 	
-	printf("%d\t\t%d\n", total_distance, similarity_score);
+	printf("|%-20s|%-20s|\n", "total distance", "similarity score");
+	printf("|%-20d|%-20d|\n", total_distance, similarity_score);
 
 	return 0;
 }
 
-void generate_lists(char input_file[6], int (*list1)[1000], int (*list2)[1000])
+void generate_lists(char input_file[6], int (*list1)[], int (*list2)[])
 {
 	int list_position = 0;
 	char input_line[15], string_num1[6], string_num2[6];
@@ -62,7 +61,7 @@ void generate_lists(char input_file[6], int (*list1)[1000], int (*list2)[1000])
 	(void)fclose(file_pointer);
 }
 
-void bubble_sort_list(int (*list)[1000])
+void bubble_sort_list(int (*list)[])
 {
 	int list_length = 1000, list_position, tmp_int = 0;
 	bool sorted = false;
