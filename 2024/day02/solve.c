@@ -57,7 +57,7 @@ void count_safe_lines(char *input_file)
 	(void)fclose(file_pointer);
 
 	printf("|%-20s|%-20s|%-20s|\n", "safe lines", "dampened lines", "total safe lines");
-	printf("|%-20d|%-20d|%-20d|\n", safe_lines, dampened_lines, safe_lines + dampened_lines);
+	printf("|%-20d|%-20d|%-20d|\n\n", safe_lines, dampened_lines, safe_lines + dampened_lines);
 }
 
 bool line_is_safe(int (*line)[], int line_length)
