@@ -27,9 +27,10 @@ int main(int argc, char *argv[])
 		similarity_score += list1[i] * counter;
 		total_distance += abs(list1[i] - list2[i]);
 	}
-	
+
+	printf("%s\n", "day 01:");
 	printf("|%-20s|%-20s|\n", "total distance", "similarity score");
-	printf("|%-20d|%-20d|\n", total_distance, similarity_score);
+	printf("|%-20d|%-20d|\n\n", total_distance, similarity_score);
 
 	return 0;
 }
