@@ -1,18 +1,20 @@
 #include <ctype.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-void process_input_file(char *input_file);
+int count_safe_lines(char *input_file);
+bool line_is_safe(int (*line)[], int line_length);
 
 int main(int argc, char *argv[])
 {
-	process_input_file(argv[1]);
+	printf("%d\n", count_safe_lines(argv[1]));
 	return 0;
 }
 
-void process_input_file(char *input_file)
+int count_safe_lines(char *input_file)
 {
-	int c, i, int_line_position, int_line[100];
+	int line = 1, safe_lines, c, i, int_line_position, int_line[100];
 	char input_line[100], string_num[5];
 	char *endptr;
 	FILE *file_pointer;
@@ -41,13 +43,62 @@ void process_input_file(char *input_file)
 			i++;
 		}
 
-		for(i = 0; i < int_line_position; i++)
+		if(line_is_safe(&int_line, int_line_position))
 		{
-			printf("%d ", int_line[i]);
+			safe_lines++;
+			printf("line %5d safe\n", line);
+		} else {
+			printf("line %5d unsafe\n", line);
 		}
-
-		printf("\n");
+		line++;
 	}
 
 	(void)fclose(file_pointer);
+
+	return safe_lines;
+}
+
+bool line_is_safe(int (*line)[], int line_length)
+{
+	int c, i, prev_direction, direction, diff, differences[100];
+	bool one_direction = true, close_diffs = true;
+
+	for(i = 0; i < (line_length - 1); i++)
+	{
+		differences[i] = (*line)[i + 1] - (*line)[i];
+	}
+
+	if(differences[0] < 0)
+	{
+		prev_direction = 0;
+	} else if(differences[0] > 0) {
+		prev_direction = 1;
+	} else {
+		return false;
+	}
+
+	for(c = 0; c < i; c++)
+	{
+		printf("%d", c);
+		if((abs(differences[c]) < 1) || (3 < abs(differences[c])))
+		{
+			printf("close_diffs\n");
+			return false;
+		}
+
+		if(differences[c] < 0)
+		{
+			direction = 0;
+		} else if(differences[c] > 0){
+			direction = 1;
+		}
+
+		if(direction != prev_direction)
+		{
+			printf("one_direction\n");
+			return false;
+		}
+	}
+
+	return true;
 }
