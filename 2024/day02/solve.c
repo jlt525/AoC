@@ -62,8 +62,7 @@ void count_safe_lines(char *input_file)
 
 bool line_is_safe(int (*line)[], int line_length)
 {
-	int c, i, prev_direction, direction, diff, differences[100];
-	bool one_direction = true, close_diffs = true, no_0_diff = true;
+	int c, i, prev_direction, direction, differences[100];
 
 	for(i = 0; i < (line_length - 1); i++)
 	{
