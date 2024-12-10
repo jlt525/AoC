@@ -4,8 +4,8 @@
 #include <stdlib.h>
 
 void count_safe_lines(char *input_file);
-bool line_is_safe(int (*line)[], int line_length);
-bool problem_dampener(int (*line)[], int line_length);
+bool line_is_safe(int line[], int line_length);
+bool problem_dampener(int line[], int line_length);
 
 int main(int argc, char *argv[])
 {
@@ -43,10 +43,10 @@ void count_safe_lines(char *input_file)
 			i++;
 		}
 
-		if(line_is_safe(&int_line, int_line_position))
+		if(line_is_safe(int_line, int_line_position))
 		{
 			safe_lines++;
-		} else if(problem_dampener(&int_line, int_line_position))
+		} else if(problem_dampener(int_line, int_line_position))
 		{
 			dampened_lines++;
 		}
@@ -60,13 +60,13 @@ void count_safe_lines(char *input_file)
 	printf("|%-20d|%-20d|%-20d|\n\n", safe_lines, dampened_lines, safe_lines + dampened_lines);
 }
 
-bool line_is_safe(int (*line)[], int line_length)
+bool line_is_safe(int line[], int line_length)
 {
 	int c, i, prev_direction, direction, differences[100];
 
 	for(i = 0; i < (line_length - 1); i++)
 	{
-		differences[i] = (*line)[i + 1] - (*line)[i];
+		differences[i] = line[i + 1] - line[i];
 	}
 
 	if(differences[0] < 0)
@@ -101,7 +101,7 @@ bool line_is_safe(int (*line)[], int line_length)
 	return true;
 }
 
-bool problem_dampener(int (*line)[], int line_length)
+bool problem_dampener(int line[], int line_length)
 {
 	int i, element_to_skip, new_line[100], new_line_length;
 
@@ -113,12 +113,12 @@ bool problem_dampener(int (*line)[], int line_length)
 		{
 			if(i != element_to_skip)
 			{
-				new_line[new_line_length] = (*line)[i];
+				new_line[new_line_length] = line[i];
 				new_line_length++;
 			}
 		}
 
-		if(line_is_safe(&new_line, new_line_length))
+		if(line_is_safe(new_line, new_line_length))
 		{
 			return true;
 		}
